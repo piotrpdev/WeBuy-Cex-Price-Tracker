@@ -11,7 +11,7 @@ files and run it in whatever you want, but make sure you get the prerequisites f
 
 As of me writing this, you will need [Selenium](https://selenium-python.readthedocs.io/installation.html), [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) and [WxPython](https://wxpython.org/pages/downloads/index.html). Of course you also have to get the latest version of [Python](https://www.python.org/downloads/)
 
-Selenium requires you to use either a Firefox or Chrome Webdriver, so make sure to get one of those [here](https://selenium-python.readthedocs.io/installation.html).
+Selenium requires you to use either a Firefox or Chrome Webdriver, so make sure to get one of those [here](https://selenium-python.readthedocs.io/installation.html). You also need the actual web browser installed itself (Default is set to Firefox).
 
 ### Installing
 
