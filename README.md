@@ -1,29 +1,29 @@
-# Cex Price Tracker
+# WeBuy Cex Price Tracker
 
-A python script that gets the prices of certain Cex products and uploads them to google sheets.
+A python script that gets the prices of certain CeX products and uploads them to google sheets. Based on [CEX-API](https://github.com/teamplz/CEX-API)
 
 ## Getting Started
 
-The script currently works fine and has the option to get the title or price of the product. Just download the
+The script is currently able to get the information of multiple products using their id's. Just download the
 files and run it in whatever you want, but make sure you get the prerequisites first!
 
 ### Prerequisites
 
-As of me writing this, you will need [Selenium](https://selenium-python.readthedocs.io/installation.html), [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) and [WxPython](https://wxpython.org/pages/downloads/index.html). Of course you also have to get the latest version of [Python](https://www.python.org/downloads/)
-
-Selenium requires you to use either a Firefox or Chrome Webdriver, so make sure to get one of those [here](https://selenium-python.readthedocs.io/installation.html). You also need the actual web browser installed itself (Default is set to Firefox).
+As of writing this, you will need [WxPython](https://wxpython.org/pages/downloads/index.html) for the GUI. Of course you also have to get the latest version of [Python](https://www.python.org/downloads/)
 
 ### Installing
 
-After downloading the files and prerequisites go to the settings.txt file and enter in the location of your webdriver. 
-Make sure to also select whichever webdriver you're using.
+After downloading the files and prerequisites you can enter the id's of the products you want to check into the [id_list.py](id_list.py) and run [main.py](main.py).
 
-Running the script as is should return the price for the [following](https://ie.webuy.com/product-detail/?id=5030917285752&categoryName=playstation4-software&superCatName=gaming&title=call-of-duty-modern-warfare-%282019%29) product on the website.
+Running the script as is should return the information for some products.
 
-![Getting the element](http://i.imgur.com/XMk6lRk.jpg)
-![Printing the element](https://i.imgur.com/pUW3b5w.png)
+![Getting the element](https://i.imgur.com/6Rw6y5G.png)
 
 ## Release History
+
+* 0.2.0
+    * Deleted inneficient tracking code and rewrote the script to use [CEX-API](https://github.com/teamplz/CEX-API)
+    * Script is now able to get the information of multiple products at the same time using their id's
 * 0.1.1
     * Added a [config.py](config.py) file to allow interchange between Chromedriver and Geckodriver
     * IN PROGRESS: Discovered [CeX Go Client](https://github.com/Southclaws/go-cex) and [CEX-API](https://github.com/teamplz/CEX-API). Rewriting code to adapt those libraries to increase efficiency.
