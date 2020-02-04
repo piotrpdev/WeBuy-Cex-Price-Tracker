@@ -26,7 +26,7 @@ Running the script as is should return the price for the [following](https://ie.
 ## Release History
 * 0.1.1
     * Added a [config.py](config.py) file to allow interchange between Chromedriver and Geckodriver
-    * Discovered [CeX Go Client](https://github.com/Southclaws/go-cex) and [CEX-API](https://github.com/teamplz/CEX-API)
+    * IN PROGRESS: Discovered [CeX Go Client](https://github.com/Southclaws/go-cex) and [CEX-API](https://github.com/teamplz/CEX-API). Rewriting code to adapt those libraries to increase efficiency.
 * 0.1.0
     * The first alpha release
     * FIX: Adding time.sleep(1) before the parsing has stopped the value only for only appearing some of the time
