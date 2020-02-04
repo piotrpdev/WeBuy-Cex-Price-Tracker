@@ -24,12 +24,13 @@ Running the script as is should return the price for the [following](https://ie.
 ![Printing the element](https://i.imgur.com/pUW3b5w.png)
 
 ## Release History
-
+* 0.1.1
+    * Added a [config.py](config.py) file to allow interchange between Chromedriver and Geckodriver
 * 0.1.0
     * The first alpha release
     * FIX: Adding time.sleep(1) before the parsing has stopped the value only for only appearing some of the time
     * IN PROGRESS: Working on adding a graphical interface using [WxPython](https://wxpython.org/pages/downloads/index.html) for ease of use
-    * IN PROGRESS: Working on a settings.txt file for webdriver selection 
+    * IN PROGRESS: Working on a config file for webdriver selection 
 * Pre-0.1.0
     * ISSUE: Only loads values some of the time, seems to be an issue with parsing
     * ISSUE: The load time for a value is around 10 seconds, if this is repeated for even a small amount of prices the wait time will be very large
