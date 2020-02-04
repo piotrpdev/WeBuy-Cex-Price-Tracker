@@ -16,7 +16,7 @@ class Tracker():
     def __init__(self, *args, **kw):
 
         options1 = FirefoxOptions() #variable for simplicity
-        options1.add_argument("--headless") #adds headless parameter to options
+        options1.add_argument('--headless') #adds headless parameter to options
 
         #options2 = ChromeOptions() #variable for simplicity
         #options2.add_argument("--headless") #adds headless parameter to options
@@ -29,7 +29,7 @@ class Tracker():
     
         while (errorcount < 3):
             try:
-                driver = webdriver.Firefox(executable_path=r'C:\Users\games\AppData\Local\Programs\Microsoft VS Code\geckodriver.exe', options=options1)
+                driver = webdriver.Firefox(executable_path=r'C:\Users\games\AppData\Local\Programs\Microsoft VS Code\geckodriver.exe', options=options1, service_log_path='NUL')
                 #driver = webdriver.Chrome(executable_path=r'C:\Users\games\AppData\Local\Programs\Microsoft VS Code\chromedriver.exe', options=options2)
                 driver.get(url)
                 time.sleep(1) # VERY IMPORTANT Delay needed for value to load before parsing, TRACKER WILL NOT WORK WITHOUT THIS! If there are issues, increasing this value might help
