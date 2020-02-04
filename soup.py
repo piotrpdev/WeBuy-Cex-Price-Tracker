@@ -5,52 +5,61 @@
 
 from bs4 import BeautifulSoup, Comment #Used to parse through HTML and prettify
 from selenium import webdriver #Used to generate browser sessions
-from selenium.webdriver.firefox.options import Options as FirefoxOptions #Options to enable headless mode, can potentially reduce lag / wait time
-from selenium.webdriver.chrome.options import Options as ChromeOptions
 import time
 import wx
 import wx.lib.buttons as buttons  
+import config
+
+class Config:
+    if config.webdriver['type'] == 2:
+        print('Using Chrome driver')
+        from selenium.webdriver.chrome.options import Options as ChromeOptions
+        options = ChromeOptions() #variable for simplicity
+        options.add_argument("--headless") #adds headless parameter to options
+        options.add_argument("--log-level=3")
+        web_driver_path = config.webdriver['location']
+        driver = webdriver.Chrome(executable_path=web_driver_path, options=options, service_log_path='NUL')
+    else:
+        print('Using Firefox driver')
+        from selenium.webdriver.firefox.options import Options as FirefoxOptions #Options to enable headless mode, can potentially reduce lag / wait time
+        options = FirefoxOptions() #variable for simplicity
+        options.add_argument('--headless') #adds headless parameter to options
+        web_driver_path = config.webdriver['location']
+        driver = webdriver.Firefox(executable_path=web_driver_path, options=options, service_log_path='NUL')
 
 class Tracker():
 
     def __init__(self, *args, **kw):
-
-        options1 = FirefoxOptions() #variable for simplicity
-        options1.add_argument('--headless') #adds headless parameter to options
-
-        #options2 = ChromeOptions() #variable for simplicity
-        #options2.add_argument("--headless") #adds headless parameter to options
-        #options2.add_argument("--log-level=3")
     
         url = 'https://ie.webuy.com/product-detail?id=5030917285752&categoryName=playstation4-games&superCatName=gaming&title=call-of-duty-modern-warfare-%282019%29' #Url that gets checked
         #url = 'https://ie.webuy.com/product-detail?id=0711719386070&categoryName=playstation4-software&superCatName=gaming&title=god-of-war-%282018%29-no-dlc'
     
         errorcount = 0
     
-        while (errorcount < 3):
-            try:
-                driver = webdriver.Firefox(executable_path=r'C:\Users\games\AppData\Local\Programs\Microsoft VS Code\geckodriver.exe', options=options1, service_log_path='NUL')
-                #driver = webdriver.Chrome(executable_path=r'C:\Users\games\AppData\Local\Programs\Microsoft VS Code\chromedriver.exe', options=options2)
-                driver.get(url)
-                time.sleep(1) # VERY IMPORTANT Delay needed for value to load before parsing, TRACKER WILL NOT WORK WITHOUT THIS! If there are issues, increasing this value might help
-                html = BeautifulSoup(driver.page_source, 'lxml')
-                errorcount = errorcount + 1
-                result = html.find('tr', {'valign':'top'}).find('td', {'id':'Asellprice'}).text
-                #result = html.find('div', {'class':'productDescriptionArea'}).find('h2').text
-                if not result: #raises an exception if the result string is empty
-                    raise ValueError()
-                print(result) #switching between these two sometimes fixes things, should try putting one of them in the except
-                driver.quit()
-                break
-            except AttributeError:
-                print('Attribute Error! (html.find probably returned a NoneType)')
-                driver.quit()
-            except ValueError:
-                print('Value Error! (Resulting text is probably empty)')
-                driver.quit()
-
+        #while (errorcount < 3):
+        try:
+            driver = Config.driver
+            #driver = webdriver.Chrome(executable_path=r'C:\Users\games\AppData\Local\Programs\Microsoft VS Code\chromedriver.exe', options=options2)
+            driver.get(url)
+            time.sleep(1) # VERY IMPORTANT Delay needed for value to load before parsing, TRACKER WILL NOT WORK WITHOUT THIS! If there are issues, increasing this value might help
+            html = BeautifulSoup(driver.page_source, 'lxml')
+            errorcount = errorcount + 1
+            result = html.find('tr', {'valign':'top'}).find('td', {'id':'Asellprice'}).text
+            #result = html.find('div', {'class':'productDescriptionArea'}).find('h2').text
+            if not result: #raises an exception if the result string is empty
+                raise ValueError()
+            print(result) #switching between these two sometimes fixes things, should try putting one of them in the except
+            driver.quit()
+            #break
+        except AttributeError:
+            print('Attribute Error! (html.find probably returned a NoneType)')
+            driver.quit()
+        except ValueError:
+            print('Value Error! (Resulting text is probably empty)')
+            driver.quit()
 
 Tracker()
+
 
 #class HelloFrame(wx.Frame):
 #    """
