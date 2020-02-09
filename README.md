@@ -8,7 +8,7 @@ The script is currently able to get the information of multiple products using t
 
 ### Prerequisites
 
-You will need the latest version of [Python](https://www.python.org/downloads/), [OAuth2Client](https://oauth2client.readthedocs.io/en/latest/#supported-python-versions),
+You will need the latest version of [Python](https://www.python.org/downloads/), [OAuth2Client](https://oauth2client.readthedocs.io/en/latest/#supported-python-versions), [Requests](https://pypi.org/project/requests/), 
 [GSpread](https://pypi.org/project/gspread/) and [GSpread-Formatting](https://pypi.org/project/gspread-formatting/)
 
 ### Installing
