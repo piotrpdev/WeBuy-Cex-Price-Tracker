@@ -1,62 +1,78 @@
 
 # Made by RazerMoon - Based on CEX-API by teamplz and hiddencipher
+# https://docs.google.com/spreadsheets/d/1HeJvXZaNQ3oFkR2bRu0TrMu6MlGDgccCX3s0H4CSchw/edit#gid=0
 
-import requests #Used to get the html data
+import addon #imports the functions in addon.py used for adding new products and formatting to sheet
+from oauth2client.service_account import ServiceAccountCredentials #Used to access google account
+from datetime import date, timedelta #Used to get current day
 from cex import * #Gets all the files from the cex folder
-import wx #Used for the GUI
-import wx.lib.buttons as buttons #GUI element
-import id_list
+import gspread #Used to work with google sheets
+import requests #Used to get the html data
+import id_list #Gets all the product id's
 
+#Uses creds to create a client to interact with the Google Drive API
+scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope) #Replace client_secret.json with the credentials file
+client = gspread.authorize(creds)
 
-class Check(): #Check the information for specified products and prints it
+# Find a workbook by name and open the first sheet
+# Make sure you use the right name here.
+sheet = client.open("").sheet1
+
+#Gets the date according to the format, change it if you like
+today = date.today()
+date1 = today.strftime("%d/%m/%Y")
+
+class PriceUpdate(): #Updates the prices of the id's in id_list
     def __init__(self):
-        
-        for id in id_list.id_list: #Gets the information for every id
-            Cex = CexClient(id) #Sends the id
+
+        print('-------------------')
+        print('Checking prices...')
+        print('')
+        updated = 0
+        cooldown = 0
+        def getInfo(id): 
+            Cex = CexClient(id) #Searches for product info
             products = Cex.specific() #Returns the JSON data of a product
-            Cex.displayResults(products) #Prints the wanted data in a nice looking format into console
+            print('Updating prices for {}'.format(products[0][D['bN']]))
+            sell = products[0][D['sP']] #Sets prices, refer to cex > const.py for details
+            buycash = products[0][D['cP']] 
+            buyvoucher =  products[0][D['eP']]
 
-Check()
+            cell = sheet.find(id) #Looks for the cell with a matching product name and sets the coordinates for it
+            namerow = cell.row - 1
+            namecol = cell.col
 
-#class HelloFrame(wx.Frame):
-#    """
-#    A Frame that says Hello World
-#    """
-#
-#    def __init__(self, *args, **kw):
-#        # ensure the parent's __init__ is called
-#        super(HelloFrame, self).__init__(*args, **kw, size=(400, 300), style=wx.DEFAULT_FRAME_STYLE ^ wx.RESIZE_BORDER)
-#
-#        # create a panel in the frame
-#        panel = wx.Panel(self)
-#
-#        #self.t1 = wx.TextCtrl(panel)
-#
-#        #self.boldtext='default'
-#
-#        #self.st = wx.StaticText(panel, label=self.boldtext, pos=(0, 30))
-#        #font = self.st.GetFont()
-#        #font.PointSize += 10
-#        #font = font.Bold()
-#        #self.st.SetFont(font)
-#
-#        #self.Bind(wx.EVT_TEXT, self.changed, self.t1)
-#
-#        btn2 = buttons.GenButton(panel, -1, "Hello World!", (50, 100))
-#
-#    #def changed(self, event):
-#        #updated = self.t1.GetValue()
-#        #self.boldtext = updated
-#        #self.st.SetLabel(self.boldtext)  
-#
-#
-#
-#if __name__ == '__main__':
-#    # When this module is run (not imported) then create the app, the
-#    # frame, show it, and start the event loop.
-#    app = wx.App()
-#    frm = HelloFrame(None, title='Cex Price Tracker')
-#    frm.Centre()
-#    frm.Show()
-#    app.MainLoop()
+            def freeColumn(): # looks for empty column
+                cols = sheet.range(namerow, namecol, namerow, sheet.col_count)
+                maxcol = max([cell.col for cell in cols if cell.value]) + 1
+                return maxcol
+
+            maxcol = freeColumn() #Sets maxcol to a free column 
+
+            return namerow, maxcol, sell, buycash, buyvoucher
+
+        for id in id_list.id_list:
+            updated = updated+1
+            cooldown = cooldown+1
+            if cooldown > 24:
+                print('Cooling down for 100 seconds...')
+                cooldown = 0
+                time.sleep(100)
+
+            namerow, maxcol, sell, buycash, buyvoucher = getInfo(id)
+
+            sheet.update_cell(namerow, maxcol, date1)
+            sheet.update_cell(namerow+3, maxcol, sell)
+            sheet.update_cell(namerow+4, maxcol, buycash)
+            sheet.update_cell(namerow+5, maxcol, buyvoucher)
+
+        
+        print('')
+        print('{} Prices updated!'.format(updated))
+        print('-------------------')
+
+addon.update_list(sheet) # This need to be run on first launch and after adding new id's, just leave it on
+
+PriceUpdate()
 
