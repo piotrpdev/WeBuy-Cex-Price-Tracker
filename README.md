@@ -17,8 +17,8 @@ After downloading the files and prerequisites you can enter the id's of the prod
 
 Running the script as is should return the information for some products. The addon.update_list() function will always check for new id's and ungenerated google sheet products.
 
-![The id's](https://gyazo.com/54fc961fec4a59c665f408d6a20f29c9)
-![Final result](https://gyazo.com/be40364620ee8c5e844c9530fd5e2e79)
+![The id's](captures/id_list.png)
+![Final result](captures/sheet.gif)
 
 ## License
 
