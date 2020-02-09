@@ -1,4 +1,4 @@
-# WeBuy Cex Price Tracker [![Build Status](https://img.shields.io/badge/license-MIT-green)
+# WeBuy Cex Price Tracker [![Build Status](captures/license-MIT-green.svg)
 
 A python script that gets the prices of certain CeX products and uploads them to google sheets. Based on [CEX-API](https://github.com/teamplz/CEX-API)
 
