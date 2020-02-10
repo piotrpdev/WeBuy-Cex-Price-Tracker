@@ -13,7 +13,7 @@ You will need the latest version of [Python](https://www.python.org/downloads/),
 
 ### Installing
 
-After downloading the files and prerequisites you can enter the id's of the products you want to check into the [id_list.py](id_list.py) and run [main.py](main.py).
+After downloading the files and prerequisites you can enter the id's of the products you want to check into the [id_list.py](id_list.py).  Then make sure you put the credentials file into the folder, name it client_secret.json, and put the sheets' name into [main.py](main.py).
 
 Running the script as is should return the information for some products. The addon.update_list() function will always check for new id's and ungenerated google sheet products.
 
