@@ -9,13 +9,25 @@ The script is currently able to get the information of multiple products using t
 ### Prerequisites
 
 You will need the latest version of [Python](https://www.python.org/downloads/), [OAuth2Client](https://oauth2client.readthedocs.io/en/latest/#supported-python-versions), [Requests](https://pypi.org/project/requests/), 
-[GSpread](https://pypi.org/project/gspread/) and [GSpread-Formatting](https://pypi.org/project/gspread-formatting/)
+[GSpread](https://pypi.org/project/gspread/) and [GSpread-Formatting](https://pypi.org/project/gspread-formatting/).
+
+There is a [requirements.txt](requirements.txt) file included that has everything you need in it. Just run this command before running the script and you should be good to go:
+
+```python
+pip install -r requirements.txt
+```
 
 ### Installing
 
-After downloading the files and prerequisites you can enter the id's of the products you want to check into the [id_list.py](id_list.py).  Then make sure you put the credentials file into the folder, name it client_secret.json, and put the sheets' name into [main.py](main.py).
+After downloading the files and prerequisites you can enter the id's of the products you want to check into [id_list.py](id_list.py).  Then make sure you put the credentials file into the folder, name it client_secret.json, and put the sheets' name into [main.py](main.py).
 
 Running the script as is should return the information for some products. The addon.update_list() function will always check for new id's and ungenerated google sheet products.
+
+However, be aware that if you add a lot of id's you will need to deal with Google Sheets' API [Usage Limits](https://developers.google.com/sheets/api/limits). I have added a basic cooldown function in [main.py](main.py) and [addon.py](addon.py) however it isn't perfect, if you're looking into adding A LOT of id's you should consider adding your own cooldown or just add
+```python
+time.sleep(100)
+```
+between addon.update_list(sheet) and PriceUpdate() in [main.py](main.py)
 
 ![Getting the id](captures/getting_id.gif)
 ![The id's](captures/id_list.png)
