@@ -1,6 +1,5 @@
 
 # Made by RazerMoon - Based on CEX-API by teamplz and hiddencipher
-# https://docs.google.com/spreadsheets/d/1HeJvXZaNQ3oFkR2bRu0TrMu6MlGDgccCX3s0H4CSchw/edit#gid=0
 
 import addon #imports the functions in addon.py used for adding new products and formatting to sheet
 from oauth2client.service_account import ServiceAccountCredentials #Used to access google account
