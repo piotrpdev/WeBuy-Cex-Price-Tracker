@@ -25,15 +25,19 @@ After downloading the files and prerequisites you can enter the id's of the prod
 sheet = client.open("name of sheet here").sheet1
 ```
 
-Running the script as is should return the information for some products. The addon.update_list() function will always check for new id's and ungenerated google sheet products.
+### Running
 
-However, be aware that if you add a lot of id's you will need to deal with Google Sheets' API [Usage Limits](https://developers.google.com/sheets/api/limits). I have added a basic cooldown function in [main.py](main.py) and [addon.py](addon.py) however it isn't perfect, if you're looking into adding A LOT of id's you should consider adding your own cooldown or just add
+Running the script as is should return the information for some products. The dupeChecker() function will check for any duplicate id's in your list and then the update_list() function will check for new id's and ungenerated google sheet products.
+
+PriceUpdate() will then lookup each id on the CeX website, get it's prices and print it onto the google sheet.
+
+However, be aware that if you add a lot of id's you will need to deal with Google Sheets' API [Usage Limits](https://developers.google.com/sheets/api/limits). I have added a basic cooldown function in [main.py](main.py) and [addon.py](addon.py) however it isn't perfect, if you're looking into adding A LOT of id's you should try manipulating the wait time.
 
 ```python
 time.sleep(100)
 ```
 
-between addon.update_list(sheet) and PriceUpdate() in [main.py](main.py)
+Optionally you can use the nandi() function to scan the google sheet for any names and id's and print them to the console.
 
 ![Getting the id](captures/getting_id.gif)
 ![The id's](captures/id_list.png)
