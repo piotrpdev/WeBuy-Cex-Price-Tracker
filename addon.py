@@ -38,7 +38,7 @@ def update_list(sheet):
             if cooldown > 8:
                 print('Cooling down for 100 seconds...')
                 cooldown = 0
-                time.sleep(100)
+                time.sleep(120)
 
             cols = sheet.range(2, 1, sheet.row_count, 1)
             try:

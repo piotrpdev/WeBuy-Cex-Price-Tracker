@@ -1,13 +1,16 @@
 
 # Made by RazerMoon - Based on CEX-API by teamplz and hiddencipher
 
-import addon #imports the functions in addon.py used for adding new products and formatting to sheet
+from addon import * #imports the functions in addon.py used for adding new products and formatting to sheet
+from dupecheck import * #Checks for dupe id's
 from oauth2client.service_account import ServiceAccountCredentials #Used to access google account
 from datetime import date, timedelta #Used to get current day
+from nandi import * #Gets all the names and id's, then puts them on screen
 from cex import * #Gets all the files from the cex folder
 import gspread #Used to work with google sheets
 import requests #Used to get the html data
 import id_list #Gets all the product id's
+import time
 
 #Uses creds to create a client to interact with the Google Drive API
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -16,7 +19,7 @@ client = gspread.authorize(creds)
 
 # Find a workbook by name and open the first sheet
 # Make sure you use the right name here.
-sheet = client.open("").sheet1
+sheet = client.open("name of sheet here").sheet1
 
 #Gets the date according to the format, change it if you like
 today = date.today()
@@ -52,12 +55,13 @@ class PriceUpdate(): #Updates the prices of the id's in id_list
             return namerow, maxcol, sell, buycash, buyvoucher
 
         for id in id_list.id_list:
+            if cooldown == 23:
+                print('Cooling down for 100 seconds...') #23 done fail on 24
+                cooldown = 0
+                time.sleep(120)
+            
             updated = updated+1
             cooldown = cooldown+1
-            if cooldown > 24:
-                print('Cooling down for 100 seconds...')
-                cooldown = 0
-                time.sleep(100)
 
             namerow, maxcol, sell, buycash, buyvoucher = getInfo(id)
 
@@ -71,7 +75,9 @@ class PriceUpdate(): #Updates the prices of the id's in id_list
         print('{} Prices updated!'.format(updated))
         print('-------------------')
 
-addon.update_list(sheet) # This need to be run on first launch and after adding new id's, just leave it on
-
+#Nandi(sheet) #Gets all the names and id's, then puts them on screen
+dupeChecker() #Checks for duped id's
+update_list(sheet) # This need to be run on first launch and after adding new id's, just leave it on
+print('Cooling down...')
+time.sleep(100)
 PriceUpdate()
-

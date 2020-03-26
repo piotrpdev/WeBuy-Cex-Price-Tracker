@@ -1,6 +1,6 @@
 # WeBuy Cex Price Tracker ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![License](https://img.shields.io/badge/license-MIT-red) ![Python version](https://img.shields.io/badge/Python-latest-blue)
 
-A python script that gets the prices of certain CeX products and uploads them to google sheets. Based on [CEX-API](https://github.com/teamplz/CEX-API), uses the [Irish version of webuy.com](https://ie.webuy.com/).
+A python script that gets the prices of certain WeBuy CeX products and uploads them to google sheets. Based on [CEX-API](https://github.com/teamplz/CEX-API), uses the [Irish version of webuy.com](https://ie.webuy.com/).
 
 ## Getting Started
 
@@ -21,12 +21,18 @@ pip install -r requirements.txt
 
 After downloading the files and prerequisites you can enter the id's of the products you want to check into [id_list.py](id_list.py).  Then make sure you put the credentials file into the folder, name it client_secret.json, and put the sheets' name into [main.py](main.py).
 
+```python
+sheet = client.open("name of sheet here").sheet1
+```
+
 Running the script as is should return the information for some products. The addon.update_list() function will always check for new id's and ungenerated google sheet products.
 
 However, be aware that if you add a lot of id's you will need to deal with Google Sheets' API [Usage Limits](https://developers.google.com/sheets/api/limits). I have added a basic cooldown function in [main.py](main.py) and [addon.py](addon.py) however it isn't perfect, if you're looking into adding A LOT of id's you should consider adding your own cooldown or just add
+
 ```python
 time.sleep(100)
 ```
+
 between addon.update_list(sheet) and PriceUpdate() in [main.py](main.py)
 
 ![Getting the id](captures/getting_id.gif)
